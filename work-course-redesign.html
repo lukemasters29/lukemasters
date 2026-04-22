@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Redesign — Luke D. Masters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --black: #0a0a0a;
+      --charcoal: #1c1c1c;
+      --mid-gray: #6b6b6b;
+      --light-gray: #d4d0cb;
+      --accent: #b8a898;
+      --rule: #e2ddd8;
+      --bg-soft: #f7f5f2;
+      --hover-border: rgba(10,10,10,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--white);
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--rule);
+      opacity: 0;
+      animation: fadeDown 0.6s ease 0.1s forwards;
+    }
+
+    .nav-back {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--black); }
+    .nav-back::before { content: '←'; font-size: 0.8rem; }
+
+    .nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--mid-gray);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-index {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+    }
+
+    /* ── PAGE ── */
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 48px 120px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding-top: 140px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid var(--rule);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+
+    .hero-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      margin-bottom: 28px;
+      max-width: 680px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 32px;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-meta-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero-meta-value {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--mid-gray);
+    }
+
+    /* ── SECTION ── */
+    .section {
+      padding-top: 56px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .section:nth-child(2) { animation-delay: 0.45s; }
+    .section:nth-child(3) { animation-delay: 0.55s; }
+    .section:nth-child(4) { animation-delay: 0.65s; }
+    .section:nth-child(5) { animation-delay: 0.75s; }
+    .section:nth-child(6) { animation-delay: 0.85s; }
+    .section:nth-child(7) { animation-delay: 0.95s; }
+
+    .section-label {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .body-text {
+      font-size: 0.84rem;
+      line-height: 1.9;
+      color: var(--mid-gray);
+      max-width: 680px;
+    }
+
+    .body-text + .body-text {
+      margin-top: 14px;
+    }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      margin: 40px 0;
+      padding: 28px 32px;
+      border-left: 2px solid var(--accent);
+      background: var(--bg-soft);
+    }
+
+    .pull-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--charcoal);
+    }
+
+    .pull-quote cite {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    /* ── PROCESS STEPS ── */
+    .steps {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 0 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .step:first-child { border-top: 1px solid var(--rule); }
+
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--light-gray);
+      line-height: 1;
+      padding-top: 2px;
+    }
+
+    .step-content {}
+
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .step-body {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--mid-gray);
+    }
+
+    /* ── ARTIFACT CARD ── */
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .artifact-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--rule);
+      padding: 28px 24px;
+      border-radius: 2px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .artifact-card:hover {
+      border-color: var(--hover-border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .artifact-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .artifact-tag {
+      font-size: 0.55rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .artifact-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+
+    .artifact-body {
+      font-size: 0.78rem;
+      line-height: 1.75;
+      color: var(--mid-gray);
+    }
+
+    /* ── SCENARIO BOX ── */
+    .scenario-box {
+      margin-top: 32px;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .scenario-header {
+      background: var(--black);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .scenario-header-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .scenario-header-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--white);
+      font-style: italic;
+    }
+
+    .scenario-body {
+      padding: 28px 24px;
+      background: var(--bg-soft);
+    }
+
+    .scenario-body p {
+      font-size: 0.81rem;
+      line-height: 1.85;
+      color: var(--mid-gray);
+      margin-bottom: 12px;
+    }
+
+    .scenario-body p:last-child { margin-bottom: 0; }
+
+    .scenario-body strong {
+      color: var(--charcoal);
+      font-weight: 600;
+    }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .flow-node {
+      flex: 1;
+      min-width: 140px;
+      text-align: center;
+      padding: 18px 12px;
+      border: 1px solid var(--rule);
+      background: var(--white);
+      border-radius: 2px;
+    }
+
+    .flow-node-icon {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .flow-node-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .flow-node-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .flow-arrow {
+      font-size: 1rem;
+      color: var(--light-gray);
+      padding: 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── IMPACT ROW ── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 32px;
+    }
+
+    .impact-cell {
+      background: var(--white);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .impact-stat {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .impact-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER NAV ── */
+    .footer-nav {
+      margin-top: 80px;
+      padding-top: 28px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1s forwards;
+    }
+
+    .footer-nav a {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--black); }
+    .footer-nav .back-link::before { content: '← '; }
+    .footer-nav .next-link::after { content: ' →'; }
+
+    .footer-initials {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--light-gray);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .nav { padding: 16px 24px; }
+      .page { padding: 0 24px 80px; }
+      .hero { padding-top: 110px; }
+      .hero-title { font-size: 2rem; }
+      .artifact-grid { grid-template-columns: 1fr; }
+      .impact-grid { grid-template-columns: 1fr; }
+      .flow { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-back" href="index.html">Portfolio</a>
+  <span class="nav-title">Course Modernization</span>
+  <span class="nav-index">Project Experience</span>
+</nav>
+
+<div class="page">
+
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Case Study · UX &amp; Instructional Design</div>
+    <h1 class="hero-title">Information Systems Course Redesign: From Passive Lecture to Experiential Learning</h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Client</span>
+        <span class="hero-meta-value">Dr. Kathleen Hartzel · Duquesne University</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Role</span>
+        <span class="hero-meta-value">Instructional Designer · Guest Lecturer</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Timeline</span>
+        <span class="hero-meta-value">Aug 2025 – Present</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Deliverables</span>
+        <span class="hero-meta-value">Lecture Deck · Assignment · Live Workshop</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- THE PROBLEM -->
+  <div class="section">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Students weren't disengaged. The experience was.</h2>
+    <p class="body-text">
+      After taking Dr. Hartzel's Information Systems course, I found myself walking away with terminology but not understanding. The class relied heavily on passive lecture and abstract vocabulary — students were asked to memorize concepts before ever seeing why they mattered. The result was predictable: disengagement, surface-level retention, and a widening gap between academic content and real-world practice.
+    </p>
+    <p class="body-text">
+      I approached Dr. Hartzel with a proposal: let me redesign the module on automation. Not just the slides — the entire learning experience.
+    </p>
+
+    <div class="pull-quote">
+      <p>"The curriculum was vocabulary-first. Students were handed a dictionary before they'd ever seen the language spoken."</p>
+      <cite>The core friction · Identified through personal experience as a student</cite>
+    </div>
+  </div>
+
+
+  <!-- THE PROCESS -->
+  <div class="section">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">A collaboration built over multiple working sessions.</h2>
+    <p class="body-text">
+      This wasn't a one-time deliverable. Dr. Hartzel and I worked across several meetings — planning the scope, stress-testing assignment ideas, building and demoing a live automation workflow together, and walking her through Power Automate so she could confidently support students going forward.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <div class="step-title">Discovery &amp; Scope Planning</div>
+          <p class="step-body">Met with Dr. Hartzel to identify the specific pain points in the existing module. Agreed on the redesign scope: a new lecture deck on process automation and a hands-on assignment students would build, not just read about.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <div class="step-title">Visual &amp; Pedagogical Redesign of the Lecture</div>
+          <p class="step-body">Overhauled the PowerPoint presentation from text-heavy slides to concept-driven visual explanations. The new deck covers automation fundamentals, Power Automate architecture, AI-in-automation, and a full guided tour of the platform — 24 slides built for first-time learners.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <div class="step-title">Assignment Design: Application-First Learning</div>
+          <p class="step-body">Created a scenario-based assignment where students step into the role of a product analyst intern tasked with solving a real business problem. Rather than a presentation or a quiz, students build a working 3-node Power Automate workflow from scratch.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <div class="step-title">Teaching Dr. Hartzel Power Automate</div>
+          <p class="step-body">To ensure the module could live beyond my involvement, I walked Dr. Hartzel through the platform — triggers, actions, run history, debugging failed flows — so she could confidently guide future students independently.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">05</span>
+        <div class="step-content">
+          <div class="step-title">Live Teaching &amp; Workshop Delivery</div>
+          <p class="step-body">Stood in front of Dr. Hartzel's class and taught the session myself — presenting the redesigned deck, then walking students through the assignment demo live. Students followed along in real time, actively building alongside the lecture.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- THE DELIVERABLES -->
+  <div class="section">
+    <div class="section-label">Deliverables</div>
+    <h2 class="section-title">Two artifacts. One shift in how the course works.</h2>
+
+    <div class="artifact-grid">
+
+      <div class="artifact-card full">
+        <div class="artifact-tag">Deliverable 01 · Lecture Deck — 24 Slides</div>
+        <div class="artifact-title">Modern Process Automation for Systems Analysis &amp; Design</div>
+        <p class="artifact-body">
+          A complete visual redesign of the automation module — moving away from text-dense slides toward concept-first explanations. The deck covers why businesses automate, the four core building blocks of any automation (triggers, actions, conditions, loops), where AI fits into modern workflows, and a full guided tour of Microsoft Power Automate's interface. Each concept is grounded in a real-world business scenario students can immediately recognize.
+        </p>
+      </div>
+
+      <div class="artifact-card full">
+        <div class="artifact-tag">Deliverable 02 · Assignment — Hands-On Build</div>
+        <div class="artifact-title">The "Carrie" Scenario: Build a Real Automation Workflow</div>
+        <p class="artifact-body">
+          Instead of a presentation or sketch, students are handed a business scenario and asked to solve it. The assignment casts them as a product analyst intern at Americas First Bank, tasked with replacing a manual, email-based website change request process with an automated Power Automate workflow. The design constraint is intentional: build it in only three nodes.
+        </p>
+      </div>
+    </div>
+
+    <!-- Scenario deep-dive -->
+    <div class="scenario-box">
+      <div class="scenario-header">
+        <span class="scenario-header-label">Assignment Scenario</span>
+        <span class="scenario-header-title">Americas First Bank · Website Change Request Workflow</span>
+      </div>
+      <div class="scenario-body">
+        <p>
+          <strong>The user:</strong> Carrie is a project manager at Americas First Bank. She manages all website change requests from internal departments — but currently does it entirely through email. Requests come in inconsistent formats, get buried in her inbox, and she routinely misses or delays responses.
+        </p>
+        <p>
+          <strong>The task:</strong> Students are hired as product analyst interns to replace Carrie's manual process with an automated workflow. They must build a Microsoft Form to capture structured request data, then wire it to a Power Automate flow that triggers on form submission, retrieves the response, and sends Carrie a clean, consistently formatted email — all in three nodes.
+        </p>
+        <p>
+          <strong>Why it works:</strong> The scenario is grounded in a real problem class of inefficiency every organization faces. Students aren't memorizing a definition of "automation" — they're building a solution for a person with a name, a job, and a frustration they can empathize with.
+        </p>
+      </div>
+    </div>
+
+    <!-- Flow diagram -->
+    <div class="flow" style="margin-top: 20px;">
+      <div class="flow-node">
+        <div class="flow-node-icon">📋</div>
+        <div class="flow-node-label">Trigger</div>
+        <div class="flow-node-title">Form Submitted</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">⚙️</div>
+        <div class="flow-node-label">Action</div>
+        <div class="flow-node-title">Get Response Details</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">✉️</div>
+        <div class="flow-node-label">Action</div>
+        <div class="flow-node-title">Send Formatted Email</div>
+      </div>
+    </div>
+    <p class="body-text" style="margin-top: 16px; font-size: 0.74rem;">
+      The three-node constraint is deliberate — simple enough for a first build, sophisticated enough to teach trigger logic, action chaining, and dynamic content in a single workflow.
+    </p>
+  </div>
+
+
+  <!-- THE IMPACT -->
+  <div class="section">
+    <div class="section-label">The Impact</div>
+    <h2 class="section-title">Dr. Hartzel adopted the materials. The class followed along.</h2>
+    <p class="body-text">
+      The redesigned module was integrated directly into Dr. Hartzel's curriculum. On the day of the lecture, students didn't just watch — they built alongside the demo in real time, with visible engagement throughout the session. The application-first approach did what passive lecture couldn't: it made the material stick by making it immediately applicable.
+    </p>
+    <p class="body-text">
+      Beyond the classroom, this engagement led to a continuing role — working with Dr. Hartzel on future course development and returning as a guest lecturer as the curriculum evolves.
+    </p>
+
+    <div class="impact-grid">
+      <div class="impact-cell">
+        <div class="impact-stat">24</div>
+        <div class="impact-label">Slides redesigned from scratch</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-stat">1</div>
+        <div class="impact-label">Scenario-based assignment built and adopted</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-stat">↑</div>
+        <div class="impact-label">Student engagement, verified live in the classroom</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- REFLECTION -->
+  <div class="section">
+    <div class="section-label">Reflection</div>
+    <h2 class="section-title">What this project is really about.</h2>
+    <p class="body-text">
+      A course curriculum is a product. Students are users. Disengagement is a friction point — a signal that the experience isn't meeting the user where they are. This project is a demonstration of the same instinct that drives good UX: identify where the experience breaks down, understand why, and redesign it around how people actually learn.
+    </p>
+    <p class="body-text">
+      The tools happened to be PowerPoint and Power Automate. The discipline was experience design.
+    </p>
+  </div>
+
+
+  <!-- FOOTER NAV -->
+  <div class="footer-nav">
+    <a href="index.html" class="back-link">Back to Portfolio</a>
+    <span class="footer-initials">L.D.M.</span>
+    <a href="#" class="next-link">Next Project</a>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>
