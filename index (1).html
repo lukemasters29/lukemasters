@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luke D. Masters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --off-white: #f7f5f2;
+      --black: #0a0a0a;
+      --charcoal: #1c1c1c;
+      --mid-gray: #6b6b6b;
+      --light-gray: #d4d0cb;
+      --accent: #b8a898;
+      --rule: #e2ddd8;
+      --hover-bg: rgba(10,10,10,0.04);
+      --hover-border: rgba(10,10,10,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--white);
+      color: var(--charcoal);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 48px 120px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 48px;
+      align-items: start;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--rule);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .photo-wrap {
+      width: 160px;
+      height: 200px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      filter: grayscale(15%);
+    }
+
+    .header-info {
+      padding-top: 8px;
+    }
+
+    .name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 3.6rem;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+
+    .name a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .name a:hover { opacity: 0.55; }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 20px;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 24px;
+    }
+
+    .meta a { color: var(--mid-gray); text-decoration: none; transition: color 0.2s; }
+    .meta a:hover { color: var(--black); }
+
+    .header-details {
+      border-top: 1px solid var(--rule);
+      padding-top: 18px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 5px 0;
+    }
+
+    .detail-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .detail-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      text-align: right;
+    }
+
+    .detail-value span {
+      font-style: italic;
+      color: var(--mid-gray);
+      font-size: 0.88rem;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-top: 52px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .section:nth-of-type(2) { animation-delay: 0.12s; }
+    .section:nth-of-type(3) { animation-delay: 0.22s; }
+    .section:nth-of-type(4) { animation-delay: 0.32s; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 6px;
+    }
+
+    .section-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .section-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ── ENTRY (non-clickable) ── */
+    .entry {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .entry-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .entry-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--black);
+    }
+
+    .entry-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .entry-date {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .entry-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--mid-gray);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .entry-body {
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: var(--mid-gray);
+    }
+
+    /* ── WORK ENTRY (clickable) ── */
+    .work-entry {
+      position: relative;
+      padding: 18px 20px;
+      margin: 0 -20px;
+      border-bottom: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* hairline separator between items when not hovered */
+    .work-entry + .work-entry::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 20px; right: 20px;
+      height: 1px;
+      background: var(--rule);
+      transition: opacity 0.2s;
+    }
+
+    .work-entry:hover {
+      background: var(--hover-bg);
+      border-radius: 4px;
+    }
+
+    .work-entry:hover + .work-entry::before,
+    .work-entry:hover::before {
+      opacity: 0;
+    }
+
+    /* The outline rectangle that appears on hover */
+    .work-entry::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      pointer-events: none;
+    }
+
+    .work-entry:hover::after {
+      border-color: var(--hover-border);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    }
+
+    /* arrow hint */
+    .work-entry .arrow {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%) translateX(6px);
+      font-size: 0.9rem;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .work-entry:hover .arrow {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    .work-entry .entry-top { padding-right: 28px; }
+
+    /* ── SKILLS ROW ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 14px;
+    }
+
+    .skill-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      border: 1px solid var(--rule);
+      padding: 5px 12px;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--charcoal);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s forwards;
+    }
+
+    .footer-note {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+    }
+
+    .footer-initials {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--light-gray);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── HINT BAR ── */
+    .hint-bar {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border-radius: 2px;
+      opacity: 0;
+      animation: hintIn 0.6s ease 1.6s forwards, hintOut 0.5s ease 5s forwards;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes hintIn {
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    @keyframes hintOut {
+      to { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .page { padding: 36px 24px 80px; }
+      .header { grid-template-columns: 1fr; gap: 24px; }
+      .photo-wrap { width: 120px; height: 150px; }
+      .name { font-size: 2.6rem; }
+      .detail-row { flex-direction: column; gap: 2px; }
+      .detail-value { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="photo-wrap">
+      <!-- Replace the src below with your actual photo path once hosting -->
+      <img src="Luke_Masters.JPG" alt="Luke D. Masters" />
+    </div>
+
+    <div class="header-info">
+      <h1 class="name">
+        <a href="https://www.linkedin.com/in/luke-masters29/" target="_blank" title="View LinkedIn">Luke D. Masters</a>
+      </h1>
+
+      <div class="meta">
+        <span>Pittsburgh, PA</span>
+        <a href="/cdn-cgi/l/email-protection#1579607e7078746661706766272c557278747c793b767a78"><span class="__cf_email__" data-cfemail="8ce0f9e7e9e1edfff8e9feffbeb5ccebe1ede5e0a2efe3e1">[email&#160;protected]</span></a>
+        <a href="tel:7243127488">724-312-7488</a>
+      </div>
+
+      <div class="header-details">
+        <div class="detail-row">
+          <span class="detail-label">Education</span>
+          <span class="detail-value">Duquesne University &nbsp;<span>BS Business Administration, Expected May 2026</span></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Major</span>
+          <span class="detail-value">Information Systems &amp; Technology · Data Analytics</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">GPA</span>
+          <span class="detail-value">3.96</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Current Role</span>
+          <span class="detail-value">Digital Channels Product Analyst <span>· F.N.B. Corporation</span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- PROJECT EXPERIENCE -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Project Experience</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <a class="work-entry" href="work-ai-research.html">
+      <div class="entry-top">
+        <span class="entry-title">From Panic to Adaptation: A Mixed-Method Analysis of University Faculty Perspectives on AI — Student Research</span>
+        <span class="entry-date">Aug 2025 – Present</span>
+      </div>
+      <div class="entry-sub">Duquesne University · Mixed-Methods Research</div>
+      <div class="entry-body">Analyzed 3,866 Reddit posts across eight academic communities to map how university faculty attitudes toward generative AI evolved post-ChatGPT. Built a Python/Reddit API pipeline with sentiment analysis and a 19-category qualitative framework — uncovering a 485% surge in AI discourse and a documented shift from resistance to instructional integration.</div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="work-entry" href="work-course-redesign.html">
+      <div class="entry-top">
+        <span class="entry-title">Course Modernization &amp; Guest Lecturer</span>
+        <span class="entry-date">Aug 2025 – Present</span>
+      </div>
+      <div class="entry-sub">Systems Analysis &amp; Design · Duquesne University</div>
+      <div class="entry-body">Brought internship experience into the classroom to modernize curriculum with real-world automation tools. Designed hands-on assignments in business process automation, delivered a guest lecture on Power Automate fundamentals, and led a live end-to-end automation workshop.</div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="work-entry" href="work-digital-marketing.html">
+      <div class="entry-top">
+        <span class="entry-title">Digital Marketing Presentation Competition</span>
+        <span class="entry-date">Aug 2025 – Dec 2025</span>
+      </div>
+      <div class="entry-sub">Digital Marketing Course · Level Agency · Winning Team</div>
+      <div class="entry-body">Part of the year's winning team, developing a full social media advertising strategy to drive ticket sales for a local comedy club. Strategized, built, and presented a comprehensive campaign to Level Agency judges.</div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="work-entry" href="work-ux-client.html">
+      <div class="entry-top">
+        <span class="entry-title">Client Project — UX Redesign</span>
+        <span class="entry-date">Jan 2024 – May 2024</span>
+      </div>
+      <div class="entry-sub">User Experience Design Course</div>
+      <div class="entry-body">End-to-end UX redesign of a client website grounded in user research — personas, affinity maps, user stories, and wireframes — validated through usability testing and peer critique at both low- and high-fidelity stages.</div>
+      <span class="arrow">→</span>
+    </a>
+  </section>
+
+
+  <!-- PROFESSIONAL EXPERIENCE -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Professional Experience</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <a class="work-entry" href="work-fnb-analyst.html">
+      <div class="entry-top">
+        <span class="entry-title">Digital Channels Product Analyst</span>
+        <span class="entry-date">Jan 2026 – Present</span>
+      </div>
+      <div class="entry-sub">F.N.B. Corporation · Pittsburgh, PA</div>
+      <div class="entry-body">Supporting product managers across digital banking — onboarding, account access, and payment services. Analyzes product performance data to drive roadmap recommendations, coordinates vendor evaluations, and leads QA, UAT, and CAT testing for digital banking solutions.</div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="work-entry" href="work-fnb-intern.html">
+      <div class="entry-top">
+        <span class="entry-title">Digital Channels Intern</span>
+        <span class="entry-date">May 2025 – Aug 2025</span>
+      </div>
+      <div class="entry-sub">F.N.B. Corporation · Pittsburgh, PA</div>
+      <div class="entry-body">Built an automated website change request workflow in Power Automate — streamlining multi-level approvals across Legal, Compliance, and Corporate Communications. Conducted UX and behavioral analysis via GA4, Hotjar, and Sitecore, and presented data-driven findings directly to senior executives.</div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="work-entry" href="work-morse.html">
+      <div class="entry-top">
+        <span class="entry-title">Morse Decentralized Messenger</span>
+        <span class="entry-date">Dec 2024 – Jul 2025</span>
+      </div>
+      <div class="entry-sub">UX/UI Designer · Pittsburgh, PA</div>
+      <div class="entry-body">Designed the full product experience for a Stellar blockchain-based peer-to-peer messenger. Built non-custodial wallet UX, brand presence, and app accessibility standards from zero.</div>
+      <span class="arrow">→</span>
+    </a>
+  </section>
+
+
+  <!-- SKILLS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Capabilities</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="skills-grid">
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">R</span>
+      <span class="skill-tag">SQL</span>
+      <span class="skill-tag">Swift</span>
+      <span class="skill-tag">HTML</span>
+      <span class="skill-tag">Data Analysis</span>
+      <span class="skill-tag">Data Visualization</span>
+      <span class="skill-tag">PowerBI</span>
+      <span class="skill-tag">Excel</span>
+      <span class="skill-tag">Power Automate</span>
+      <span class="skill-tag">n8n</span>
+      <span class="skill-tag">GA4</span>
+      <span class="skill-tag">Yext</span>
+      <span class="skill-tag">Sitecore</span>
+      <span class="skill-tag">Figma</span>
+      <span class="skill-tag">Quantum Metric</span>
+      <span class="skill-tag">SPSS</span>
+      <span class="skill-tag">Airtable</span>
+      <span class="skill-tag">AI &amp; ML Fundamentals</span>
+      <span class="skill-tag">Prompt Engineering</span>
+      <span class="skill-tag">Agent Building</span>
+      <span class="skill-tag">UX/UI Design</span>
+      <span class="skill-tag">Wireframing &amp; Prototyping</span>
+      <span class="skill-tag">Usability Testing</span>
+      <span class="skill-tag">Journey Mapping</span>
+      <span class="skill-tag">UAT · QA · CAT</span>
+      <span class="skill-tag">SEO</span>
+      <span class="skill-tag">Digital Marketing</span>
+    </div>
+  </section>
+
+</div><!-- /page -->
+
+<!-- FOOTER -->
+<div class="page" style="padding-top:0; padding-bottom:48px;">
+  <footer class="footer">
+    <span class="footer-note">© 2026 · Luke D. Masters · Pittsburgh</span>
+    <span class="footer-initials">L
